@@ -1,0 +1,51 @@
+# macOS
+.DS_Store
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+*.dvi
+*.ps
+*.tdo
+*.nav
+*.snm
+*.vrb
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.upa
+*.upb
+*-blx.bib
+_minted-*/
+
+# Generated outputs
+*.pdf
+_build/
+arxiv_submission/
+arxiv_submission.zip
+arxiv_submission.tar.gz
+
+# Editor files
+*~
+*.swp
+*.swo
+.#*

@@ -1,0 +1,210 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sjtu_iic_arxiv}[2026/05/26 SJTU-IIC public arXiv style]
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[english]{babel}
+\RequirePackage{cmap}
+\RequirePackage{amsmath,amsfonts,amssymb,amsthm}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage[dvipsnames,table]{xcolor}
+\RequirePackage{colortbl}
+\RequirePackage{microtype}
+\RequirePackage{etoolbox}
+\RequirePackage{xspace}
+\RequirePackage{url}
+\RequirePackage[a4paper,left=2.2cm,right=2.2cm,top=3cm,bottom=3cm,headheight=50pt,headsep=18pt,footskip=28pt]{geometry}
+\RequirePackage{fancyhdr}
+\RequirePackage[explicit]{titlesec}
+\RequirePackage{caption}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{environ}
+
+\IfFileExists{XCharter.sty}{%
+  \RequirePackage{XCharter}%
+}{%
+  \RequirePackage{charter}%
+}
+\IfFileExists{newtxmath.sty}{\RequirePackage{newtxmath}}{}
+
+\definecolor{sjtuiicTeal}{HTML}{006B8F}
+\definecolor{sjtuiicAbsBg}{HTML}{EDF7FA}
+\definecolor{sjtuiicLink}{HTML}{168FB3}
+\definecolor{sjtuiicRule}{HTML}{111111}
+
+\RequirePackage[colorlinks=true,allcolors=sjtuiicLink]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5\baselineskip}
+\setlength{\columnsep}{15pt}
+
+\newcommand{\sjtuiicTitleFont}{\color{sjtuiicTeal}\normalfont\bfseries\fontsize{21}{23}\selectfont}
+\newcommand{\sjtuiicAuthorFont}{\normalfont\bfseries\fontsize{11}{13.2}\selectfont}
+\newcommand{\sjtuiicAffilFont}{\normalfont\fontsize{9.2}{11}\selectfont}
+\newcommand{\sjtuiicContactFont}{\normalfont\fontsize{8.4}{10.2}\selectfont}
+\newcommand{\sjtuiicHeaderFont}{\color{black}\normalfont\bfseries\fontsize{13}{14}\selectfont}
+\newcommand{\sjtuiicDateFont}{\normalfont\sffamily\itshape\fontsize{11.5}{13.5}\selectfont}
+\newcommand{\sjtuiicPageFont}{\normalfont\fontsize{13}{14}\selectfont}
+\newcommand{\sjtuiicAbstractFont}{\linespread{1.2}\fontsize{10}{12}\selectfont}
+\newcommand{\sjtuiicSectionFont}{\color{sjtuiicTeal}\bfseries\fontsize{13}{14}\selectfont}
+
+\makeatletter
+\newcommand{\sjtuiic@headertext}{}
+\newcommand{\sjtuiic@headertitle}{}
+\newcommand{\sjtuiic@correspondingemail}{}
+\newcommand{\sjtuiic@githublink}{}
+\newcommand{\sjtuiic@huggingfacelink}{}
+\newcommand{\sjtuiic@paperurl}{}
+\newcommand{\sjtuiic@abstract}{}
+
+\newcommand{\setheadertext}[1]{\renewcommand{\sjtuiic@headertext}{#1}}
+\newcommand{\setheadertitle}[1]{\renewcommand{\sjtuiic@headertitle}{#1}}
+\newcommand{\correspondingemail}[1]{\renewcommand{\sjtuiic@correspondingemail}{#1}}
+\newcommand{\githublink}[1]{\renewcommand{\sjtuiic@githublink}{#1}}
+\newcommand{\huggingfacelink}[1]{\renewcommand{\sjtuiic@huggingfacelink}{#1}}
+\newcommand{\paperurl}[1]{\renewcommand{\sjtuiic@paperurl}{#1}}
+
+\newcommand{\sjtuiicGithubIcon}{%
+  \IfFileExists{figs/github_mark.png}{%
+    \raisebox{-0.12em}{\includegraphics[height=0.9em]{figs/github_mark.png}}%
+  }{\textbf{GitHub}}%
+}
+\newcommand{\sjtuiicHuggingFaceIcon}{%
+  \IfFileExists{figs/huggingface_logo.png}{%
+    \raisebox{-0.16em}{\includegraphics[height=0.95em]{figs/huggingface_logo.png}}%
+  }{\textbf{HF}}%
+}
+
+\RenewEnviron{abstract}{%
+  \expandafter\gdef\expandafter\sjtuiic@abstract\expandafter{\BODY}%
+}
+
+\newcommand{\sjtuiicPrintMetadataLine}[3]{%
+  {\sjtuiicContactFont #1\ \textbf{#2:} #3\par}%
+}
+\newcommand{\sjtuiicPrintResources}{%
+  \ifdefempty{\sjtuiic@githublink}{}{%
+    \sjtuiicPrintMetadataLine{\sjtuiicGithubIcon}{Code}{\href{\sjtuiic@githublink}{\nolinkurl{\sjtuiic@githublink}}}%
+  }%
+  \ifdefempty{\sjtuiic@huggingfacelink}{}{%
+    \sjtuiicPrintMetadataLine{\sjtuiicHuggingFaceIcon}{Data}{\href{\sjtuiic@huggingfacelink}{\nolinkurl{\sjtuiic@huggingfacelink}}}%
+  }%
+}
+
+\newcommand{\sjtuiicPrintAbstract}{%
+  \ifdefempty{\sjtuiic@abstract}{}{%
+    \begin{tcolorbox}[
+      colback=sjtuiicAbsBg,
+      colframe=sjtuiicAbsBg,
+      boxrule=0pt,
+      arc=3pt,
+      left=6pt,
+      right=6pt,
+      top=6pt,
+      bottom=6pt
+    ]
+    \textbf{Abstract }\begingroup\sjtuiicAbstractFont\sjtuiic@abstract\endgroup
+    \ifboolexpr{
+      not test {\ifdefempty{\sjtuiic@githublink}} or
+      not test {\ifdefempty{\sjtuiic@huggingfacelink}}
+    }{%
+      \vskip 8pt%
+      \sjtuiicPrintResources
+    }{}%
+    \end{tcolorbox}
+  }%
+}
+
+\fancypagestyle{sjtuiicfirst}{%
+  \fancyhf{}%
+  \fancyhead[L]{%
+    \ifdefempty{\sjtuiic@headertext}{}{\sjtuiic@headertext}%
+  }%
+  \fancyhead[R]{%
+    \begin{tabular}{r}
+      \ifdefempty{\sjtuiic@paperurl}{}{\href{\sjtuiic@paperurl}{\sjtuiicDateFont\itshape\sjtuiic@paperurl}\\}%
+      {\sjtuiicDateFont\today}
+    \end{tabular}%
+  }%
+  \fancyhead[C]{}%
+  \fancyfoot{}%
+  \renewcommand{\headrulewidth}{1pt}%
+  \renewcommand{\footrulewidth}{1pt}%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{%
+  \raisebox{-0.14cm}{%
+    {\color{sjtuiicTeal}\normalfont\fontsize{10}{11}\selectfont
+      \ifdefempty{\sjtuiic@headertitle}{\@title}{\sjtuiic@headertitle}}}%
+}
+\fancyfoot[R]{{\sjtuiicPageFont\thepage}}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
+\renewcommand{\headrule}{\textcolor{sjtuiicRule}{\hrule height \headrulewidth \vskip-\headrulewidth}}
+\renewcommand{\footrule}{\textcolor{sjtuiicRule}{\vskip-\footruleskip\hrule height \footrulewidth\vskip\footruleskip}}
+
+\renewcommand{\maketitle}{%
+  \thispagestyle{sjtuiicfirst}%
+  \vspace*{-36pt}%
+  \begingroup
+  \setlength{\parindent}{0pt}%
+  \begin{flushleft}
+    {\raggedright\sjtuiicTitleFont\@title\par}%
+    \vskip 10pt%
+    {\raggedright\sjtuiicAuthorFont\@author\par}%
+    \ifdefempty{\sjtuiic@correspondingemail}{}{\vskip 3pt{\sjtuiicContactFont\sjtuiic@correspondingemail\par}}%
+  \end{flushleft}
+  \endgroup
+  \vskip -16pt%
+  \noindent\textcolor{sjtuiicRule}{\rule{\linewidth}{1pt}}%
+  \vskip 4pt%
+  \sjtuiicPrintAbstract
+  \vskip 14pt%
+}
+\makeatother
+
+\titleformat{\section}
+  {\large\bfseries\sjtuiicSectionFont}
+  {\thesection.}
+  {0.5em}
+  {#1}
+  []
+\titleformat{name=\section,numberless}
+  {\large\bfseries\sjtuiicSectionFont}
+  {}
+  {0em}
+  {#1}
+  []
+\titleformat{\subsection}
+  {\color{sjtuiicTeal}\bfseries}
+  {\thesubsection.}
+  {0.5em}
+  {#1}
+  []
+\titleformat{\subsubsection}
+  {\color{sjtuiicTeal}\bfseries\itshape}
+  {\thesubsubsection.}
+  {0.5em}
+  {#1}
+  []
+\titleformat{\paragraph}[runin]
+  {\bfseries}
+  {}
+  {0pt}
+  {#1}
+  []
+
+\titlespacing*{\section}{0pt}{3ex plus 4pt minus 3pt}{5pt}
+\titlespacing*{\subsection}{0pt}{2.5ex plus 3pt minus 2pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{2ex plus 2.5pt minus 1.5pt}{2pt}
+\titlespacing*{\paragraph}{0pt}{0ex}{0.33em}
+
+\DeclareCaptionLabelSeparator{sjtuiicpipe}{ $\vert$ }
+\captionsetup{
+  labelfont={bf},
+  labelsep=sjtuiicpipe,
+  singlelinecheck=false
+}

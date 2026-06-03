@@ -1,0 +1,67 @@
+\documentclass[11pt,a4paper]{article}
+\pdfoutput=1
+
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{sjtu_iic_arxiv}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\hypersetup{
+  pdftitle={Your Paper Title},
+  pdfauthor={First Author, Second Author}
+}
+
+\setheadertext{%
+  \raisebox{-0.55cm}{\includegraphics[height=1.3cm]{figs/sjtu-icon.png}}%
+  \hspace{0.15cm}%
+  \raisebox{-0.29cm}{\includegraphics[height=0.72cm]{figs/sjtu-iic-logo.png}}%
+}
+\setheadertitle{Short Paper Title for Page Headers}
+% \paperurl{https://arxiv.org/abs/xxxx.xxxxx}
+% \githublink{https://github.com/your-org/your-project}
+% \huggingfacelink{https://huggingface.co/datasets/your-org/your-dataset}
+\correspondingemail{%
+  first.author@sjtu.edu.cn\\[0.25cm]
+  \textsuperscript{*}Equal contribution\quad
+  \textsuperscript{\dag}Corresponding author
+}
+
+\title{%
+  Your Paper Title: A Concise Subtitle for the Public arXiv Version
+}
+
+\author{%
+  First Author\textsuperscript{1,*}\hspace{0.55em}
+  Second Author\textsuperscript{1,*}\hspace{0.55em}
+  Third Author\textsuperscript{1,\dag}\\[2pt]
+  {\sjtuiicAffilFont
+  \textsuperscript{1}Shanghai Jiao Tong University}
+}
+
+\begin{document}
+
+\begin{abstract}
+This template provides the default public arXiv layout for SJTU-IIC papers. The
+abstract should summarize the problem, the proposed method or artifact, the main
+empirical evidence, and the expected impact in a compact paragraph. Public code
+and dataset links can be shown in this box by enabling the metadata commands in
+the preamble.
+\end{abstract}
+
+\maketitle
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/method}
+\input{sections/experiments}
+\input{sections/conclusion}
+
+\small
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}
