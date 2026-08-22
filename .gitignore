@@ -49,3 +49,5 @@ arxiv_submission.tar.gz
 *.swp
 *.swo
 .#*
+
+.vscode/
