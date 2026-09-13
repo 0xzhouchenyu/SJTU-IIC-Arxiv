@@ -38,6 +38,10 @@ and set `main.tex` as the main document.
 ## Template Conventions
 
 - Put title, author, affiliation, header, and resource metadata in `main.tex`.
+- The first-page header places the AIOR logo to the right of the SJTU-IIC logo.
+  `figs/aior-logo.png` is the original avatar from
+  [AIOR-Research on GitHub](https://github.com/AIOR-Research); `main.tex` crops
+  its whitespace when displaying it.
 - Keep reusable notation in a separate file only when a paper needs it.
 - Keep generated PDFs and LaTeX intermediates out of git.
 - Use `\githublink{...}` and `\huggingfacelink{...}` only when the paper has
@@ -59,6 +63,6 @@ fresh copy.
 
 ## License
 
-The LaTeX template code is released under the MIT License. The SJTU and
-SJTU-IIC logos under `figs/` are included only for preparing SJTU-IIC
+The LaTeX template code is released under the MIT License. The SJTU,
+SJTU-IIC, and AIOR logos under `figs/` are included only for preparing SJTU-IIC
 manuscripts and remain marks of their respective owners.
